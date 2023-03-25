@@ -9,11 +9,19 @@ namespace OppgaveOrdgaater
 
 				public WordList(string[] words)
 				{
-						_words = words.Distinct().Where(word =>
-						{
-								return word.Length > 2 && word.Length < 11 && word.Length < 11 && !word.Contains('_') && !word.Contains(" ");
-						}).ToArray();
-				}
+						_words = FilterWords(words);
+        }
+				private string[] FilterWords(string[] words)
+				{
+						var filteredWord = words
+								.Distinct()
+								.Where(word =>
+								{
+										return word.Length > 2 && word.Length < 11 && word.Length < 11 && !word.Contains('_') && !word.Contains(" ");
+								}).ToArray();
+
+						return filteredWord;
+        }
 				private bool MatchesSearchCriteria(string searchWord, string word, string prevWord)
 				{
 						if (word != prevWord && word != searchWord && searchWord.Length > 2 && word.Length > 6)
@@ -34,7 +42,7 @@ namespace OppgaveOrdgaater
 								}
 						}            
 				}
-				public string[] GetEndsWithWords(string searchWord)
+				private string[] GetEndsWithWords(string searchWord)
 				{
 						var list = new List<string>();
 						var prevWord = "";
@@ -48,7 +56,7 @@ namespace OppgaveOrdgaater
 						}
 						return list.ToArray();
 				}
-				public string GetStartsWithWord(string searchWord)
+        private string GetStartsWithWord(string searchWord)
 				{
 						var prevWord = "";
 						foreach (var word in _words)
@@ -61,7 +69,7 @@ namespace OppgaveOrdgaater
 						}
 						return null;
 				}
-				public string GetStartsWithWordBySubstringLength(string endsWithWord)
+        private string GetStartsWithWordBySubstringLength(string endsWithWord)
 				{
 						for (int substringLength = 3; substringLength < 6 ; substringLength++)
 						{
@@ -75,7 +83,7 @@ namespace OppgaveOrdgaater
 						}
 						return null;
 				}
-				public string[] GetWordsThatCanGoAtStartAndEnd(int amountOfWordsRequested)
+        private string[] GetWordsThatCanGoAtStartAndEnd(int amountOfWordsRequested)
 				{
 						var list = new List<string>();
 
